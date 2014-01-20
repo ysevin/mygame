@@ -9,7 +9,10 @@ class SEControl : public SEPlayer
 public:
 	void set_type(const char* _type_name);
 
-	void update(uint _key);
+	void move(int _offset);
+	void turn(ASPECT_TYPE _aspect);
+
+	void update(uint _key, float _elapse);
 
 private:
 	SECommand	key_input_;

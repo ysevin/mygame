@@ -4,6 +4,7 @@
 
 class SEPlayer
 {
+public:
 	enum ASPECT_TYPE
 	{
 		AT_LEFT,
@@ -14,8 +15,8 @@ public:
 	SEPlayer();
 	virtual ~SEPlayer(){}
 
-	void set_pos(int pos);
-	void change_aspect();
+	void set_pos(int _pos);
+	void set_aspect(ASPECT_TYPE _aspect);
 
 	virtual void set_type(const char* _type_name);
 	void change_part_model(int _part, const char* _name);
@@ -25,8 +26,9 @@ public:
 
 	void update();
 
-private:
+protected:
 	SECharacter* character_;
 
+	int	pos_;
 	ASPECT_TYPE aspect_;
 };

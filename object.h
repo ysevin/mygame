@@ -7,8 +7,8 @@ public:
 
 	void set_visible(bool _visible);
 
-	void translate(int offset);
-	void turn();
+	void set_position(int _x);
+	void yaw();
 
 	Entity*		get_entity();
 	SceneNode*	get_scene_node();

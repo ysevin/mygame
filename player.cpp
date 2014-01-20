@@ -5,21 +5,27 @@
 SEPlayer::SEPlayer()
 {
 	character_ = NULL;
-	aspect_ = AT_LEFT;
+	aspect_ = AT_RIGHT;
 }
 
 void SEPlayer::set_type(const char* _type_name)
 {
 	character_ = g_character_mgr.load(_type_name);
 }
-void SEPlayer::set_pos(int pos)
+void SEPlayer::set_pos(int _pos)
 {
+	pos_ = _pos;
 
+	character_->set_position(_pos);
 }
 
-void SEPlayer::change_aspect()
+void SEPlayer::set_aspect(ASPECT_TYPE _aspect)
 {
-	aspect_ = (aspect_ == AT_LEFT ? AT_RIGHT : AT_LEFT);
+	if(aspect_ != _aspect)
+	{
+		character_->yaw();
+		aspect_ = _aspect;
+	}
 }
 
 void SEPlayer::change_part_model(int _part, const char* _name)

@@ -4,34 +4,37 @@
 #include "animation.h"
 #include "single.h"
 
-enum CHARACTER_PART
-{
-	CP_HEAD = 0,
-	CP_HAIR,
-	CP_HELMET,
-	CP_CHEST,
-	CP_HAND,
-	CP_WAIST,
-	CP_LEG,
-	CP_FOOT,
-	CP_GLASS,
-	CP_WING,
-	CP_SCAPULA,
-	CP_NUM,
-};
+//enum CHARACTER_PART
+//{
+//	CP_HEAD = 0,
+//	CP_HAIR,
+//	CP_HELMET,
+//	CP_CHEST,
+//	CP_HAND,
+//	CP_WAIST,
+//	CP_LEG,
+//	CP_FOOT,
+//	CP_GLASS,
+//	CP_WING,
+//	CP_SCAPULA,
+//	CP_NUM,
+//};
 
 class SEBody
 {
 public:
+	~SEBody();
+
 	void create(const char* _name);
 	void set_visible(bool _visible);
 	void set_animation(SEAnimation* _ani);
 
-	void translate(int offset);
-	void turn();
+	void set_position(int _x);
+	void yaw();
 
 private:
-	SEModel	model_part_[CP_NUM];
+	std::list<SEModel*> parts_;
+	//SEModel	model_part_[CP_NUM];
 };
 
 class SECharacter 
@@ -45,8 +48,8 @@ public:
 	void update_animation(float _elapse);
 	bool is_animation_over();
 
-	void translate(int offset);
-	void turn();
+	void set_position(int _x);
+	void yaw();
 
 private:
 	typedef std::map<std::string, SEBody*>		BodyMap;

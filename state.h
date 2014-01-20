@@ -14,17 +14,19 @@ public:
 
 	void add_state(SEState* _state);	//ÄÚ²¿ÊÍ·Å
 	void set_state(const char* _name);
+	std::string get_state_name();
 
 private:
-	typedef std::map<std::string, SEState*> StateMap;
+	typedef std::list<SEState*> StateList;
 
-	StateMap states_;
+	StateList states_;
 	SEState* curr_state_;
 };
 
 
 class SEState
 {
+	friend SEStateMgr;
 public:
 	SEState(SEStateMgr& _mgr):state_mgr_(_mgr){}
 	virtual ~SEState(){}

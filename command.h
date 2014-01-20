@@ -7,10 +7,10 @@ class SECommand
 	class SEKey
 	{
 	public:
-		SEKey(const char* _key, const char* _content, int _index):key_(_key), content_(_content), index_(_index){}
+		SEKey(const char* _key, const char* _content, int _priority):key_(_key), content_(_content), priority_(_priority){}
 
 	public:
-		int index_;
+		int priority_;
 		std::string key_;
 		std::string content_;
 	};

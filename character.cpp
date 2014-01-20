@@ -4,34 +4,67 @@
 #include "util.h"
 #include "config.h"
 
+SEBody::~SEBody()
+{
+	std::list<SEModel*>::iterator it;
+	for(it = parts_.begin(); it != parts_.end(); it++)
+		delete *it;
+	parts_.clear();
+}
+
 void SEBody::create(const char* _name)
 {
 	std::vector<std::string> vec_part = SEUtil::splite(_name);
-	for(int i = CP_HEAD; i < CP_NUM; i++)
+	std::vector<std::string>::iterator it = vec_part.begin();
+	for(; it != vec_part.end(); it++)
 	{
-		if(i < vec_part.size())
-			model_part_[i].create_entity(vec_part[i].c_str(), false);
+		SEModel* model = new SEModel;
+		model->create_entity(it->c_str(), false);
+		parts_.push_back(model);
 	}
+	//for(int i = CP_HEAD; i < CP_NUM; i++)
+	//{
+	//	if(i < vec_part.size())
+	//		model_part_[i].create_entity(vec_part[i].c_str(), false);
+	//}
 }
 
 void SEBody::set_visible(bool _visible)
 {
-	for(int i = CP_HEAD; i < CP_NUM; i++)
-		model_part_[i].set_visible(_visible);
+	std::list<SEModel*>::iterator it;
+	for(it = parts_.begin(); it != parts_.end(); it++)
+		(*it)->set_visible(_visible);
+
+	//for(int i = CP_HEAD; i < CP_NUM; i++)
+	//	model_part_[i].set_visible(_visible);
 }
 
 void SEBody::set_animation(SEAnimation* _ani)
 {
-	for(int i = CP_HEAD; i < CP_NUM; i++)
-		_ani->share_skeleton(model_part_[i]);		//会把原来的骨络删掉, 绑定共享的骨络.
-}
-void SEBody::translate(int offset)
-{
+	std::list<SEModel*>::iterator it;
+	for(it = parts_.begin(); it != parts_.end(); it++)
+		_ani->share_skeleton(*(*it));
 
+	//for(int i = CP_HEAD; i < CP_NUM; i++)
+	//	_ani->share_skeleton(model_part_[i]);		//会把原来的骨络删掉, 绑定共享的骨络.
 }
-void SEBody::turn()
+void SEBody::set_position(int _x)
 {
+	std::list<SEModel*>::iterator it;
+	for(it = parts_.begin(); it != parts_.end(); it++)
+		(*it)->set_position(_x);
 
+	//for(int i = CP_HEAD; i < CP_NUM; i++)
+	//	model_part_[i].set_position(_x);
+}
+void SEBody::yaw()
+{
+	std::list<SEModel*>::iterator it;
+	for(it = parts_.begin(); it != parts_.end(); it++)
+		(*it)->yaw();
+
+	//for(int i = CP_HEAD; i < CP_NUM; i++)
+	//	model_part_[i].yaw();
 }
 
 SECharacter::~SECharacter()
@@ -127,13 +160,17 @@ bool SECharacter::is_animation_over()
 	return true;
 }
 
-void SECharacter::translate(int offset)
+void SECharacter::set_position(int _x)
 {
-
+	BodyMap::iterator it;		// = bodys_.find(active_);
+	for(it = bodys_.begin(); it != bodys_.end(); it++)
+		it->second->set_position(_x);
 }
-void SECharacter::turn()
+void SECharacter::yaw()
 {
-
+	BodyMap::iterator it;		// = bodys_.find(active_);
+	for(it = bodys_.begin(); it != bodys_.end(); it++)
+		it->second->yaw();
 }
 
 SECharacterMgr::~SECharacterMgr()
@@ -152,7 +189,7 @@ SECharacter* SECharacterMgr::load(const char* _name)
 {
 	SECharacter* ch = new SECharacter;
 	ch->create(_name);
-	ch->set_animation(SEConfig::read("yinzi", "action").to_string().c_str());
+	ch->set_animation(SEConfig::read(_name, "action").to_string().c_str());
 
 	characters_.push_back(ch);
 

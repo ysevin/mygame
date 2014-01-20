@@ -13,7 +13,7 @@ void SECommand::set_command(const char* _content)
 	key_begin_ = KEY_MAX_LEN - 1;
 	keys_.clear();
 
-	int index = 0;
+	int priority = 1;
 	int key_len = 0;
 	std::vector<std::string> vec = SEUtil::splite(_content);
 	std::vector<std::string>::iterator it;
@@ -23,7 +23,7 @@ void SECommand::set_command(const char* _content)
 		if(vec2.size() > 1)
 		{
 			std::transform (vec2[0].begin(),vec2[0].end(), vec2[0].begin(), toupper);
-			keys_.push_back(SEKey(vec2[0].c_str(), vec2[1].c_str(), index++));
+			keys_.push_back(SEKey(vec2[0].c_str(), vec2[1].c_str(), priority++));
 
 			if(key_len < vec2[0].length())
 				key_len = vec2[0].length();
@@ -55,7 +55,7 @@ void SECommand::match(std::string& _out)
 {
 	int len = strlen(key_comp_);
 
-	int max_index = 0;
+	int top_priority = 0;
 	SEKey* match_key = NULL;
 	for(int i = 0; i < len; i++)
 	{
@@ -69,10 +69,10 @@ void SECommand::match(std::string& _out)
 		}
 		if(it != keys_.end())
 		{
-			if(max_index < it->index_)
+			if(top_priority < it->priority_)
 			{
 				match_key = &(*it);
-				max_index = it->index_;
+				top_priority = it->priority_;
 			}
 
 			continue;

@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\study\ogre\ogre_src_v1-8-1\OgreMain\include;E:\study\ogre\OgreSDK_vc10_v1-8-1\boost;E:\study\ogre\ogre_src_v1-8-1\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\study\ogre\ogre_src_v1-8-1\OgreMain\include;E:\study\ogre\OgreSDK_vc10_v1-8-1\boost;E:\study\ogre\ogre_src_v1-8-1\build\include;E:\study\socket;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm152 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -144,6 +144,8 @@
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\socket\my_socket.h" />
+    <ClInclude Include="..\..\..\socket\rpc.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="config.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\socket\my_socket.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="config.cpp" />

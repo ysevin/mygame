@@ -27,12 +27,39 @@ void SEControl::set_type(const char* _type_name)
 	}
 }
 
-void SEControl::update(uint _key)
+void SEControl::move(int _offset)
 {
-	key_input_.update(_key);
+	if(state_mgr_.get_state_name().compare("walk") == 0)		//移动状态才能设置位移
+		set_pos(pos_ + _offset);
+}
+void SEControl::turn(ASPECT_TYPE _aspect)
+{
+	if(state_mgr_.get_state_name().compare("idle") == 0
+		|| state_mgr_.get_state_name().compare("walk") == 0)
+	{
+		set_aspect(_aspect);
+	}
+}
 
+const int VELOCITY_SEC = 100;
+
+void SEControl::update(uint _key, float _elapse)
+{
+	//移动
+	if(char(_key) == 'D')
+	{
+		turn(AT_RIGHT);
+		move(_elapse * VELOCITY_SEC);
+	}
+	if(char(_key) == 'A')
+	{
+		turn(AT_LEFT);
+		move(-_elapse * VELOCITY_SEC);
+	}
+
+	//动画
 	std::string state_name;
+	key_input_.update(_key);
 	key_input_.match(state_name);
-
 	state_mgr_.update((void*)state_name.c_str());
 }

@@ -41,12 +41,12 @@ void SEObjectBase::set_visible(bool _visible)
 		node->detachObject(entity);
 }
 
-void SEObjectBase::translate(int offset)
+void SEObjectBase::set_position(int _x)
 {
 	SceneNode *node = get_scene_node();
-	node->translate(offset, 0, 0);
+	node->setPosition(_x, 0, 0);
 }
-void SEObjectBase::turn()
+void SEObjectBase::yaw()
 {
 	SceneNode *node = get_scene_node();
 	node->yaw(Radian(-Math::PI));
